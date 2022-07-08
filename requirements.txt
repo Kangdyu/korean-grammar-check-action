@@ -2,7 +2,6 @@ certifi==2022.6.15
 charset-normalizer==2.1.0
 commonmark==0.9.1
 idna==3.3
-py-hanspell==1.1
 Pygments==2.12.0
 requests==2.28.1
 rich==12.4.4
