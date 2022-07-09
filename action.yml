@@ -1,0 +1,20 @@
+name: "Korean Grammar Check"
+
+description: "Check Korean grammar in your markdown files"
+
+inputs:
+  check:
+    description: "Files to check"
+    required: false
+    default: "all"
+  base-branch:
+    description: "Specify the base branch. Used when checking updated files only."
+    required: false
+    default: "main"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.check }}
+    - ${{ inputs.base-branch }}

@@ -3,7 +3,7 @@ from hanspell.constants import CheckResult
 
 from rich.console import Console
 from rich.theme import Theme
-console = Console(theme=Theme(inherit=False))
+console = Console(theme=Theme(inherit=False), force_terminal=True)
 
 def check_grammar(paths):
     for path in paths:
@@ -36,17 +36,20 @@ def print_fixed_grammar(path):
             corrected_word = key
 
             if value == CheckResult.AMBIGUOUS:
-                corrected_word = f"[magenta]{corrected_word}[/] "
+                corrected_word = f"[magenta]{corrected_word} [/]"
             elif value == CheckResult.WRONG_SPELLING:
-                corrected_word = f"[red]{corrected_word}[/] "
+                corrected_word = f"[red]{corrected_word} [/]"
             elif value == CheckResult.WRONG_SPACING:
-                corrected_word = f"[green]{corrected_word}[/] "
+                corrected_word = f"[green]{corrected_word} [/]"
+            elif value == CheckResult.STATISTICAL_CORRECTION:
+                corrected_word = f"[blue]{corrected_word} [/]"
             else:
                 corrected_word = f"{corrected_word} "
             corrected_line += corrected_word
+            
         console.print(f"[bold red]{idx + 1}번째 줄에서 맞춤법 오류가 발생했습니다.[/]")
-        console.print(f"[bold]원문[/]: {result.original}")
-        console.print(f"[bold]교정[/]: {corrected_line}\n")
+        console.print(f"> [bold]원문[/]: {result.original}")
+        console.print(f"> [bold]교정[/]: {corrected_line}\n")
 
     console.print(f"맞춤법 오류: {error_count}개")
 
