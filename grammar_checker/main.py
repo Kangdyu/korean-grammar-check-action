@@ -1,3 +1,5 @@
+import sys
+
 from grammar import check_grammar
 
-check_grammar(["README.md", "test/ippendix.md"])
+check_grammar(sys.argv[1:])

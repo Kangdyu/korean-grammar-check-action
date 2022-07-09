@@ -2,6 +2,13 @@ name: "Korean Grammar Check"
 
 description: "Check Korean grammar in your markdown files"
 
+inputs:
+  check:
+    description: "Files to check"
+    required: true
+
 runs:
   using: "docker"
   image: "Dockerfile"
+  args:
+    - ${{ inputs.check }}

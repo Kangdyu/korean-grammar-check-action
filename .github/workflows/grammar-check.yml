@@ -10,3 +10,5 @@ jobs:
         uses: actions/checkout@v3
       - name: Grammar Check
         uses: ./
+        with:
+          check: "all"
