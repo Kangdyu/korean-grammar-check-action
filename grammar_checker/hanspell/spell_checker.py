@@ -79,7 +79,7 @@ def check(text):
                .replace('<span class=\'violet_text\'>', '<violet>') \
                .replace('<span class=\'blue_text\'>', '<blue>') \
                .replace('</span>', '<end>')
-    items = html.split(' ')
+    items = unescape(html).split(' ')
     words = []
     tmp = ''
     for word in items:
@@ -109,7 +109,7 @@ def check(text):
         elif word[:6] == '<blue>':
             check_result = CheckResult.STATISTICAL_CORRECTION
             word = word.replace('<blue>', '')
-        result['words'].append((unescape(word), check_result))
+        result['words'].append((word, check_result))
 
     result = Checked(**result)
 
