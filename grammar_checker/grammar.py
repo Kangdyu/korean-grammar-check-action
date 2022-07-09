@@ -3,7 +3,7 @@ from hanspell.constants import CheckResult
 
 from rich.console import Console
 from rich.theme import Theme
-console = Console(theme=Theme(inherit=False))
+console = Console(theme=Theme(inherit=False), force_terminal=True)
 
 def check_grammar(paths):
     for path in paths:
