@@ -32,7 +32,7 @@ def print_fixed_grammar(path):
         error_count += result.errors
 
         corrected_line = ""
-        for key, value in result.words.items():
+        for key, value in result.words:
             corrected_word = key
 
             if value == CheckResult.AMBIGUOUS:
