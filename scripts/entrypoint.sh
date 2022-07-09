@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "check: $INPUT_CHECK"
+INPUT_BASE_BRANCH="$2"
 
 if [ $INPUT_CHECK == "all" ]; then
     python grammar_checker/main.py $(find . -name '*.md')
