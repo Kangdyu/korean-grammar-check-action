@@ -41,6 +41,8 @@ def print_fixed_grammar(path):
                 corrected_word = f"[red]{corrected_word} [/]"
             elif value == CheckResult.WRONG_SPACING:
                 corrected_word = f"[green]{corrected_word} [/]"
+            elif value == CheckResult.STATISTICAL_CORRECTION:
+                corrected_word = f"[blue]{corrected_word} [/]"
             else:
                 corrected_word = f"{corrected_word} "
             corrected_line += corrected_word
