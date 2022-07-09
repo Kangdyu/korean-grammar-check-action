@@ -17,9 +17,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Grammar Check
         uses: Kangdyu/korean-grammar-check-action@v1
+        with:
+          check: "updated"
 ```
 
-### input 옵션 목록
+### 옵션 목록
 
 | Input   | Description | Default Value |
 | ------- | ----------- | ------------- |
