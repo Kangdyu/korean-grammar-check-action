@@ -11,4 +11,4 @@ jobs:
       - name: Grammar Check
         uses: ./
         with:
-          check: "all"
+          check: "updated"
