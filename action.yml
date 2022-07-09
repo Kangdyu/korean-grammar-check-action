@@ -5,7 +5,8 @@ description: "Check Korean grammar in your markdown files"
 inputs:
   check:
     description: "Files to check"
-    required: true
+    required: false
+    default: "updated"
 
 runs:
   using: "docker"
