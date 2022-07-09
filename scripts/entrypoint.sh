@@ -10,7 +10,9 @@ elif [ $INPUT_CHECK == "updated" ]; then
 
     git fetch origin "${INPUT_BASE_BRANCH}" --depth=1
 
-    python grammar_checker/main.py $(git diff --name-only ${INPUT_BASE_BRANCH} | grep '**/*.md')
+    git log
+
+    python grammar_checker/main.py $(git diff --name-only origin/${INPUT_BASE_BRANCH} | grep '**/*.md')
 else
     echo "Invalid check value: $INPUT_CHECK"
     exit 1
