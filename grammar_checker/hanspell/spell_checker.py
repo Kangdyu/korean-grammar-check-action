@@ -7,8 +7,8 @@ import requests
 import json
 import time
 import sys
-from collections import OrderedDict
 import xml.etree.ElementTree as ET
+from html import unescape
 
 from . import __version__
 from .response import Checked
@@ -68,7 +68,7 @@ def check(text):
         'checked': _remove_tags(html),
         'errors': data['message']['result']['errata_count'],
         'time': passed_time,
-        'words': OrderedDict(),
+        'words': list(),
     }
 
     # 띄어쓰기로 구분하기 위해 태그는 일단 보기 쉽게 바꿔둠.
@@ -79,7 +79,7 @@ def check(text):
                .replace('<span class=\'violet_text\'>', '<violet>') \
                .replace('<span class=\'blue_text\'>', '<blue>') \
                .replace('</span>', '<end>')
-    items = html.split(' ')
+    items = unescape(html).split(' ')
     words = []
     tmp = ''
     for word in items:
@@ -109,7 +109,7 @@ def check(text):
         elif word[:6] == '<blue>':
             check_result = CheckResult.STATISTICAL_CORRECTION
             word = word.replace('<blue>', '')
-        result['words'][word] = check_result
+        result['words'].append((word, check_result))
 
     result = Checked(**result)
 
