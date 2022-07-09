@@ -26,7 +26,7 @@ jobs:
 
 | Input   | Description | Default Value |
 | ------- | ----------- | ------------- |
-| `check` | `all`: 레포지토리의 모든 md파일을 검사합니다.<br>`updated`: 수정된 md파일만 검사합니다. | `updated` |
+| `check` | `all`: 레포지토리의 모든 md 파일을 검사합니다.<br>`updated`: 수정된 md 파일만 검사합니다. | `updated` |
 | `base-branch` | `check: "updated"`일 때, 업데이트 내역을 비교하기 위한 브랜치입니다. | `main` |
 
 ## 개발 환경 세팅
