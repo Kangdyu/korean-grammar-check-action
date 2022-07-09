@@ -1,0 +1,7 @@
+name: "Korean Grammar Check"
+
+description: "Check Korean grammar in your markdown files"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
