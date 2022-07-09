@@ -36,11 +36,11 @@ def print_fixed_grammar(path):
             corrected_word = key
 
             if value == CheckResult.AMBIGUOUS:
-                corrected_word = f"[magenta]{corrected_word}[/] "
+                corrected_word = f"[magenta]{corrected_word} [/]"
             elif value == CheckResult.WRONG_SPELLING:
-                corrected_word = f"[red]{corrected_word}[/] "
+                corrected_word = f"[red]{corrected_word} [/]"
             elif value == CheckResult.WRONG_SPACING:
-                corrected_word = f"[green]{corrected_word}[/] "
+                corrected_word = f"[green]{corrected_word} [/]"
             else:
                 corrected_word = f"{corrected_word} "
             corrected_line += corrected_word
