@@ -76,7 +76,7 @@ def check(text):
     # 이 짧은 코드에 굳이 그렇게 할 필요성이 없으므로 일단 문자열을 치환하는 방법으로 작성.
     html = html.replace('<span class=\'green_text\'>', '<green>') \
                .replace('<span class=\'red_text\'>', '<red>') \
-               .replace('<span class=\'purple_text\'>', '<purple>') \
+               .replace('<span class=\'violet_text\'>', '<violet>') \
                .replace('<span class=\'blue_text\'>', '<blue>') \
                .replace('</span>', '<end>')
     items = html.split(' ')
@@ -103,9 +103,9 @@ def check(text):
         elif word[:7] == '<green>':
             check_result = CheckResult.WRONG_SPACING
             word = word.replace('<green>', '')
-        elif word[:8] == '<purple>':
+        elif word[:8] == '<violet>':
             check_result = CheckResult.AMBIGUOUS
-            word = word.replace('<purple>', '')
+            word = word.replace('<violet>', '')
         elif word[:6] == '<blue>':
             check_result = CheckResult.STATISTICAL_CORRECTION
             word = word.replace('<blue>', '')
