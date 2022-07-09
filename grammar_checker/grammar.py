@@ -46,8 +46,8 @@ def print_fixed_grammar(path):
             corrected_line += corrected_word
             
         console.print(f"[bold red]{idx + 1}번째 줄에서 맞춤법 오류가 발생했습니다.[/]")
-        console.print(f"[bold]원문[/]: {result.original}")
-        console.print(f"[bold]교정[/]: {corrected_line}\n")
+        console.print(f"> [bold]원문[/]: {result.original}")
+        console.print(f"> [bold]교정[/]: {corrected_line}\n")
 
     console.print(f"맞춤법 오류: {error_count}개")
 
