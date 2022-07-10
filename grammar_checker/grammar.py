@@ -10,11 +10,8 @@ console = Console(theme=Theme(inherit=False), force_terminal=True)
 
 def check_grammar(paths):
     for path in paths:
-        title = f"{path} 파일 맞춤법 검사"
-        print(f"::group::{title}")
-        console.print(f"[bold white]{title}[/]\n")
+        console.print(f"::group::[bold white]{path} 파일 맞춤법 검사[/]")
         print_fixed_grammar(path)
-        print("=" * 50)
         print("::endgroup::")
 
 
