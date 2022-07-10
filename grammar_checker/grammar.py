@@ -1,15 +1,18 @@
+from constants import STYLES, CAUSES, RESULT_TYPE_STRING
 from hanspell import spell_checker
 from hanspell.constants import CheckResult
 
+from rich.text import Text
 from rich.console import Console
 from rich.theme import Theme
 console = Console(theme=Theme(inherit=False), force_terminal=True)
 
+
 def check_grammar(paths):
     for path in paths:
-        console.print(f"[bold orange1]{path} 파일 맞춤법 검사[/]\n")
+        console.print(f"::group::[bold white]{path} 파일 맞춤법 검사[/]")
         print_fixed_grammar(path)
-        print("=" * 50)
+        print("::endgroup::")
 
 
 def print_fixed_grammar(path):
@@ -18,39 +21,44 @@ def print_fixed_grammar(path):
     contents = []
     while True:
         line = f.readline()
-        if not line: break
+        if not line:
+            break
 
         contents.append(line.strip())
 
     results = spell_checker.check(contents)
 
-    error_count = 0
+    correction_count = {"errors": 0, "warnings": 0}
     for idx, result in enumerate(results):
         if result.errors == 0:
             continue
 
-        error_count += result.errors
-
+        result_type = ""
         corrected_line = ""
+        causes = []
         for key, value in result.words:
             corrected_word = key
 
-            if value == CheckResult.AMBIGUOUS:
-                corrected_word = f"[magenta]{corrected_word} [/]"
-            elif value == CheckResult.WRONG_SPELLING:
-                corrected_word = f"[red]{corrected_word} [/]"
-            elif value == CheckResult.WRONG_SPACING:
-                corrected_word = f"[green]{corrected_word} [/]"
-            elif value == CheckResult.STATISTICAL_CORRECTION:
-                corrected_word = f"[blue]{corrected_word} [/]"
-            else:
-                corrected_word = f"{corrected_word} "
-            corrected_line += corrected_word
-            
-        console.print(f"[bold red]{idx + 1}번째 줄에서 맞춤법 오류가 발생했습니다.[/]")
-        console.print(f"> [bold]원문[/]: {result.original}")
-        console.print(f"> [bold]교정[/]: {corrected_line}\n")
+            if value == CheckResult.WRONG_SPELLING or value == CheckResult.WRONG_SPACING:
+                result_type = "error"
+                correction_count["errors"] += 1
+                causes.append(f"{STYLES[value]}{CAUSES[value]}[/]")
+            elif value == CheckResult.AMBIGUOUS or value == CheckResult.STATISTICAL_CORRECTION:
+                result_type = "warning" if result_type != "error" else result_type
+                correction_count["warnings"] += 1
+                causes.append(f"{STYLES[value]}{CAUSES[value]}[/]")
 
-    console.print(f"맞춤법 오류: {error_count}개")
+            corrected_word = f"{STYLES[value]}{corrected_word} [/]"
+            corrected_line += corrected_word
+
+        console.print(
+            f"{STYLES[result_type]}{idx + 1}번째 줄에서 맞춤법 {RESULT_TYPE_STRING[result_type]}가 발생했습니다. [/]", end="(")
+        console.print(*list(dict.fromkeys(causes)), sep=", ", end=")\n")
+        console.print(f"> [bold white]원문[/]: {result.original}")
+        console.print(f"> [bold white]교정[/]: {corrected_line}\n")
+
+    console.print(f"[bold white]{path} 파일 맞춤법 검사 결과[/]")
+    console.print(
+        f"[white]오류: {correction_count['errors']}개, 경고: {correction_count['warnings']}개[/]")
 
     f.close()
