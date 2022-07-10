@@ -1,10 +1,9 @@
 FROM python:3.10
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-RUN chmod +x ./scripts/entrypoint.sh
-ENTRYPOINT ["./scripts/entrypoint.sh"]
+ENTRYPOINT ["/app/grammar_checker/main.py"]
