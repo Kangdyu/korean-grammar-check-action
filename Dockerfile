@@ -1,9 +1,11 @@
-FROM python:3.10
-
-WORKDIR /app
+FROM python:3.10.4-alpine
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-ENTRYPOINT ["/app/grammar_checker/main.py"]
+RUN chmod +x ./grammar_checker/main.py
+
+ENV GIT_PYTHON_REFRESH quiet
+
+ENTRYPOINT ["python", "./grammar_checker/main.py"]
