@@ -54,11 +54,11 @@ def print_fixed_grammar(path):
         console.print(
             f"{STYLES[result_type]}{idx + 1}번째 줄에서 맞춤법 {RESULT_TYPE_STRING[result_type]}가 발생했습니다. [/]", end="(")
         console.print(*list(dict.fromkeys(causes)), sep=", ", end=")\n")
-        console.print(f"> [bold]원문[/]: {result.original}")
-        console.print(f"> [bold]교정[/]: {corrected_line}\n")
+        console.print(f"> [bold white]원문[/]: {result.original}")
+        console.print(f"> [bold white]교정[/]: {corrected_line}\n")
 
-    console.print(f"[white]{path} 파일 맞춤법 검사 결과[/]")
+    console.print(f"[bold white]{path} 파일 맞춤법 검사 결과[/]")
     console.print(
-        f"오류: {correction_count['errors']}개, 경고: {correction_count['warnings']}개")
+        f"[white]오류: {correction_count['errors']}개, 경고: {correction_count['warnings']}개[/]")
 
     f.close()
