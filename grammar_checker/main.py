@@ -1,5 +1,7 @@
 import sys
 import os
+
+import git
 from wcmatch import glob
 import json
 from grammar import check_grammar
@@ -7,18 +9,26 @@ from git import Repo
 
 
 def parse_mode():
-    mode = 'ACTION'
+    _mode = 'ACTION'
     try:
         os.environ['GITHUB_ACTIONS']
     except KeyError:
-        mode = 'LOCAL'
-    return mode
+        _mode = 'LOCAL'
+    return _mode
 
 
 def get_branch_files(branch_name):
-    # TODO
+    repo.git.checkout(branch_name)
+    repo.remotes.origin.pull()
+
     with open(github_event_path, 'r') as f:
         data = json.load(f)
+
+    before_commit = repo.commit(data['before'])
+    after_commit = repo.commit(data['after'])
+    changed_files = [item.b_path for item in before_commit.diff(after_commit)]
+
+    return changed_files
 
 
 if __name__ == '__main__':
@@ -45,7 +55,7 @@ if __name__ == '__main__':
 
             # case: branch
             if github_ref.startswith('refs/heads/'):
-                pass  # TODO
+                check_files = get_branch_files(github_ref[11:])
 
             # case: PR
             elif github_ref.startswith('refs/pull/'):
@@ -60,6 +70,7 @@ if __name__ == '__main__':
     else:
         files = set(sys.argv[1:])
 
+    # Run Grammar Check
     if len(files) == 0:
         print("맞춤법 검사를 진행할 파일이 없습니다.")
         exit(0)

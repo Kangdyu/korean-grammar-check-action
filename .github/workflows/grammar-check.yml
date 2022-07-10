@@ -3,12 +3,21 @@ name: Korean Grammar Check
 on: [push, pull_request]
 
 jobs:
-  Grammar-Check:
+  Check-All:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Grammar Check
+      - name: Check All
         uses: ./
         with:
           check: "all"
+  Check-Updated:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Check Updated
+        uses: ./
+        with:
+          check: "updated"
