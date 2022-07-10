@@ -42,18 +42,18 @@ def print_fixed_grammar(path):
             if value == CheckResult.WRONG_SPELLING or value == CheckResult.WRONG_SPACING:
                 result_type = "error"
                 correction_count["errors"] += 1
-                causes.append(f"{STYLES['error']}{CAUSES[value]}[/]")
+                causes.append(f"{STYLES[value]}{CAUSES[value]}[/]")
             elif value == CheckResult.AMBIGUOUS or value == CheckResult.STATISTICAL_CORRECTION:
                 result_type = "warning" if result_type != "error" else result_type
                 correction_count["warnings"] += 1
-                causes.append(f"{STYLES['warning']}{CAUSES[value]}[/]")
+                causes.append(f"{STYLES[value]}{CAUSES[value]}[/]")
 
             corrected_word = f"{STYLES[value]}{corrected_word} [/]"
             corrected_line += corrected_word
 
         console.print(
             f"{STYLES[result_type]}{idx + 1}번째 줄에서 맞춤법 {RESULT_TYPE_STRING[result_type]}가 발생했습니다. [/]", end="(")
-        console.print(*list(dict.fromkeys(causes)), sep=",", end=")\n")
+        console.print(*list(dict.fromkeys(causes)), sep=", ", end=")\n")
         console.print(f"> [bold]원문[/]: {result.original}")
         console.print(f"> [bold]교정[/]: {corrected_line}\n")
 
