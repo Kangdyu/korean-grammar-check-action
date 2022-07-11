@@ -17,11 +17,17 @@ def parse_mode():
 
 
 def get_first_commit(_repo: Repo):
-    _sha = None
     for commit in _repo.iter_commits(reverse=True):
-        _sha = commit.hexsha
-        break
-    return _sha
+        return commit
+
+
+def get_parent_latest_commit(_repo: Repo, _after):
+    after_commit = _repo.commit(_after)
+    if after_commit.parents:
+        before_commit = after_commit.parents[0]
+    else:
+        before_commit = get_first_commit(_repo)
+    return before_commit
 
 
 def check_sha_zero(_sha: str):
@@ -39,12 +45,12 @@ def get_branch_files(_repo, branch_name):
         data = dict(json.load(f))
     print(data)
 
-    before = data.get('before')
+    before = '0000'     # TODO: 원상 복귀 => data.get('before')
     after = data.get('after')
 
     # Check before SHA if zero
     if check_sha_zero(before):
-        before = get_first_commit(repo)
+        before = get_parent_latest_commit(repo, after).hexsha
 
     print(f'before commit SHA: {before}')
     print(f'after commit SHA: {after}')
