@@ -4,7 +4,7 @@ description: "Check Korean grammar in your markdown files"
 
 inputs:
   token:
-    description: 'GITHUB_TOKEN or custom private access token (PAT)'
+    description: "GITHUB_TOKEN or custom private access token (PAT)"
     required: false
     default: ${{ github.token }}
   path:
@@ -14,7 +14,7 @@ inputs:
   check:
     description: "Files to check"
     required: false
-    default: "all"
+    default: "updated"
 
 runs:
   using: "docker"
