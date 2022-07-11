@@ -16,15 +16,23 @@ def parse_mode():
     return _mode
 
 
-def get_branch_files(branch_name):
-    repo.git.checkout(branch_name)
-    repo.remotes.origin.pull()
+def get_first_commit(_repo: Repo):
+    _sha = None
+    for commit in _repo.iter_commits(reverse=True):
+        _sha = commit.hexsha
+        break
+    return _sha
+
+
+def get_branch_files(_repo, branch_name):
+    _repo.git.checkout(branch_name)
+    _repo.remotes.origin.pull()
 
     with open(github_event_path, 'r') as f:
-        data = json.load(f)
+        data = dict(json.load(f))
 
-    before_commit = repo.commit(data['before'])
-    after_commit = repo.commit(data['after'])
+    before_commit = _repo.commit(data.get('before', get_first_commit(_repo)))
+    after_commit = _repo.commit(data['after'])
     changed_files = [item.b_path for item in before_commit.diff(after_commit)]
 
     return changed_files
@@ -57,7 +65,7 @@ if __name__ == '__main__':
 
             # case: branch
             if github_ref.startswith('refs/heads/'):
-                check_files = get_branch_files(github_ref[11:])
+                check_files = get_branch_files(repo, github_ref[11:])
 
             # case: PR
             elif github_ref.startswith('refs/pull/'):
