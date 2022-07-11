@@ -20,5 +20,6 @@ runs:
   using: "docker"
   image: "Dockerfile"
   args:
+    - ${{ inputs.token }}
+    - ${{ inputs.path }}
     - ${{ inputs.check }}
-    - ${{ inputs.base-branch }}
