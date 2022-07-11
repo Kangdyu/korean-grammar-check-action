@@ -40,13 +40,6 @@ def get_branch_files(_repo, branch_name):
     after_commit = _repo.commit(after)
     changed_files = set([item.b_path for item in before_commit.diff(after_commit)])
 
-    print(f'git log: {_repo.git.execute(["git", "log"])}')
-    for item in before_commit.diff(after_commit):
-        print(f'diff {item}')
-        print(f'a_path: {item.a_path}')
-        print(f'b_path: {item.b_path}')
-    print(f'changed_files: {changed_files}')
-
     return changed_files
 
 
@@ -82,8 +75,6 @@ if __name__ == '__main__':
         path_files = glob.glob(path + '/**/*.{md,MD}', flags=glob.GLOBSTAR | glob.BRACE)
         path_files = filter_path_prefix(path_files)
         files = set(path_files)
-        print(f'path_files: {path_files}')
-        print(f'files: {files}')
 
         # Apply 'check'
         if check == 'all':
@@ -103,7 +94,6 @@ if __name__ == '__main__':
 
             if check_files:
                 files = files & check_files
-                print(f'result files: {files}')
     # On Local
     else:
         repo = Repo()
