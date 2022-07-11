@@ -118,7 +118,7 @@ if __name__ == '__main__':
                 check_files = get_branch_files(repo, branch_name)
             # case: PR
             elif github_ref.startswith('refs/pull/'):
-                pr_number = github_ref[10:len(github_ref) - 6]
+                pr_number = int(github_ref[10:len(github_ref) - 6])
                 g = Github(token)
                 check_files = get_pr_files(g, github_repository, pr_number)
             # case: tag
