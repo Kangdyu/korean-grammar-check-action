@@ -74,4 +74,8 @@ Chrome Service Worker <----------------------------> Dashboard Page
 
 Licensed under the MIT license
 
-강대호
+## 개발
+
+- 강대호
+- 나호현
+- 차동훈
