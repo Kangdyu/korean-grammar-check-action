@@ -1,10 +1,13 @@
-FROM python:3.10
+FROM python:3.10.4-alpine
 
-WORKDIR /usr/src/app
+COPY requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY . /korean-grammar-check-action
 
-COPY . .
-RUN chmod +x ./scripts/entrypoint.sh
-ENTRYPOINT ["./scripts/entrypoint.sh"]
+RUN apk add --no-cache git
+
+ENV GIT_PYTHON_REFRESH quiet
+
+RUN chmod +x /korean-grammar-check-action/grammar_checker/main.py
+ENTRYPOINT ["python", "/korean-grammar-check-action/grammar_checker/main.py"]
