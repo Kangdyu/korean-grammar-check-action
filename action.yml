@@ -18,7 +18,7 @@ inputs:
 
 runs:
   using: "docker"
-  image: "Dockerfile"
+  image: "docker://kangdyu/korean-grammar-check-action:latest"
   args:
     - ${{ inputs.token }}
     - ${{ inputs.path }}
