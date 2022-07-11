@@ -24,6 +24,12 @@ def get_first_commit(_repo: Repo):
     return _sha
 
 
+def check_sha_zero(_sha: str):
+    if _sha.isdigit() and int(_sha) == 0:
+        return True
+    return False
+
+
 def get_branch_files(_repo, branch_name):
     _repo.git.checkout(branch_name)
     _repo.git.execute(['git', 'fetch', '--unshallow'])
@@ -31,13 +37,21 @@ def get_branch_files(_repo, branch_name):
 
     with open(github_event_path, 'r') as f:
         data = dict(json.load(f))
+    print(data)
 
-    before = data.get('before', get_first_commit(_repo))
+    before = data.get('before')
     after = data.get('after')
+
+    # Check before SHA if zero
+    if check_sha_zero(before):
+        before = get_first_commit(repo)
+
     print(f'before commit SHA: {before}')
     print(f'after commit SHA: {after}')
+
     before_commit = _repo.commit(before)
     after_commit = _repo.commit(after)
+
     changed_files = set([item.b_path for item in before_commit.diff(after_commit)])
 
     return changed_files
