@@ -108,7 +108,7 @@ if __name__ == '__main__':
             # case: PR
             elif github_ref.startswith('refs/pull/'):
                 pr_number = int(github_ref[10:len(github_ref)-6])
-                branch_name = repo.active_branch.name               # TODO: remove
+                branch_name = repo.git.execute(['git', 'branch', '--show-current'])               # TODO: remove
                 check_files = get_branch_files(repo, branch_name)   # TODO: remove
                 # TODO: implement
             # case: tag
