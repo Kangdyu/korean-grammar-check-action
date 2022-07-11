@@ -8,3 +8,4 @@ rich==12.4.4
 urllib3==1.26.9
 wcmatch==8.4
 GitPython==3.1.27
+PyGithub==1.55
