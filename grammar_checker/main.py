@@ -83,7 +83,7 @@ if __name__ == '__main__':
                 pass  # TODO
 
             if check_files:
-                files = check_files - files
+                files = files & check_files
     # On Local
     else:
         repo = Repo()
