@@ -24,16 +24,21 @@ def get_first_commit(_repo: Repo):
     return _sha
 
 
-def get_branch_files(_repo, branch_name):
+def get_branch_files(_repo, branch_name) -> set:
     _repo.git.checkout(branch_name)
-    _repo.remotes.origin.pull()
+    _repo.git.execute(['git', 'fetch', '--unshallow'])
+    print(f'checked out branch: {_repo.active_branch}')
 
     with open(github_event_path, 'r') as f:
         data = dict(json.load(f))
 
-    before_commit = _repo.commit(data.get('before', get_first_commit(_repo)))
-    after_commit = _repo.commit(data['after'])
-    changed_files = [item.b_path for item in before_commit.diff(after_commit)]
+    before = data.get('before', get_first_commit(_repo))
+    after = data.get('after')
+    print(f'before commit SHA: {before}')
+    print(f'after commit SHA: {after}')
+    before_commit = _repo.commit(before)
+    after_commit = _repo.commit(after)
+    changed_files = set([item.b_path for item in before_commit.diff(after_commit)])
 
     return changed_files
 
