@@ -45,18 +45,22 @@ def get_branch_files(_repo, branch_name) -> set:
 
 if __name__ == '__main__':
     mode = parse_mode()
-    repo = Repo()
+    repo = None
     files = None
-
-    # Config Git Security
-    repo.git.execute(["git", "config", "--global", "--add", "safe.directory", "*"])
 
     # On GitHub Action
     if mode == 'ACTION':
+        token = os.environ['INPUT_TOKEN']
         path = os.environ.get('INPUT_PATH', '.')
         check = os.environ.get('INPUT_CHECK', 'updated')
         github_ref = os.environ.get('GITHUB_REF')
         github_event_path = os.environ['GITHUB_EVENT_PATH']
+
+        # Setup git repository instance
+        repo = Repo()
+
+        # Config Git Security
+        repo.git.execute(["git", "config", "--global", "--add", "safe.directory", "*"])
 
         # Apply 'path'
         path_files = glob.glob(path + '/**/*.{md,MD}', flags=glob.GLOBSTAR | glob.BRACE)
@@ -71,7 +75,6 @@ if __name__ == '__main__':
             # case: branch
             if github_ref.startswith('refs/heads/'):
                 check_files = get_branch_files(repo, github_ref[11:])
-
             # case: PR
             elif github_ref.startswith('refs/pull/'):
                 pass  # TODO
@@ -83,6 +86,7 @@ if __name__ == '__main__':
                 files = check_files - files
     # On Local
     else:
+        repo = Repo()
         files = set(sys.argv[1:])
 
     # Run Grammar Check
