@@ -3,21 +3,44 @@ name: Korean Grammar Check
 on: [push, pull_request]
 
 jobs:
-  Check-All:
+  Check-All-Without-Path:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Check All
+      - name: Check All Without Path Settings
         uses: ./
         with:
           check: "all"
-  Check-Updated:
+
+  Check-Updated-Without-Path:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Check Updated
+      - name: Check Updated Without Path Settings
         uses: ./
         with:
           check: "updated"
+
+  Check-All-With-Path:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Check All With Path Settings (/test/blog)
+        uses: ./
+        with:
+          check: "all"
+          path: "test/blog"
+
+  Check-Updated-With-Path:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Check Updated With Path Settings (/test/blog)
+        uses: ./
+        with:
+          check: "updated"
+          path: "test/blog"
