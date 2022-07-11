@@ -43,6 +43,15 @@ def get_branch_files(_repo, branch_name):
     return changed_files
 
 
+def filter_path_prefix(_paths):
+    result = []
+    for p in _paths:
+        if str(p).startswith('./'):
+            p = p[2:]
+        result.append(p)
+    return result
+
+
 if __name__ == '__main__':
     mode = parse_mode()
     repo = None
@@ -64,6 +73,7 @@ if __name__ == '__main__':
 
         # Apply 'path'
         path_files = glob.glob(path + '/**/*.{md,MD}', flags=glob.GLOBSTAR | glob.BRACE)
+        path_files = filter_path_prefix(path_files)
         files = set(path_files)
 
         # Apply 'check'
