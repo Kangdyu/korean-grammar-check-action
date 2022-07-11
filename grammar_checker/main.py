@@ -43,9 +43,8 @@ def get_branch_files(_repo, branch_name):
 
     with open(github_event_path, 'r') as f:
         data = dict(json.load(f))
-    print(data)
 
-    before = '0000'     # TODO: 원상 복귀 => data.get('before')
+    before = data.get('before', '0')
     after = data.get('after')
 
     # Check before SHA if zero
