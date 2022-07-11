@@ -5,8 +5,8 @@ on:
     types: [created]
 
 jobs:
-  push_ubuntu_image:
-    name: Push Docker Image - Ubuntu
+  push_image:
+    name: Push Docker Image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
