@@ -1,10 +1,10 @@
 import sys
 import os
-
-from wcmatch import glob
 import json
-from grammar import check_grammar
+from wcmatch import glob
 from git import Repo
+
+from grammar import check_grammar
 
 
 def parse_mode():
@@ -24,7 +24,7 @@ def get_first_commit(_repo: Repo):
     return _sha
 
 
-def get_branch_files(_repo, branch_name) -> set:
+def get_branch_files(_repo, branch_name):
     _repo.git.checkout(branch_name)
     _repo.git.execute(['git', 'fetch', '--unshallow'])
     print(f'checked out branch: {_repo.active_branch}')
