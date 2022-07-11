@@ -1,7 +1,6 @@
 import sys
 import os
 
-import git
 from wcmatch import glob
 import json
 from grammar import check_grammar
@@ -35,6 +34,9 @@ if __name__ == '__main__':
     mode = parse_mode()
     repo = Repo()
     files = None
+
+    # Config Git Security
+    repo.git.execute(["git", "config", "--global", "--add", "safe.directory", "*"])
 
     # On GitHub Action
     if mode == 'ACTION':

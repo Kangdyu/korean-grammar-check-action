@@ -3,6 +3,10 @@ name: "Korean Grammar Check"
 description: "Check Korean grammar in your markdown files"
 
 inputs:
+  path:
+    description: "Top-level path to markdown files"
+    required: false
+    default: "."
   check:
     description: "Files to check"
     required: false
