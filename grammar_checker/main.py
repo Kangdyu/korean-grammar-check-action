@@ -17,11 +17,23 @@ def parse_mode():
 
 
 def get_first_commit(_repo: Repo):
-    _sha = None
     for commit in _repo.iter_commits(reverse=True):
-        _sha = commit.hexsha
-        break
-    return _sha
+        return commit
+
+
+def get_parent_latest_commit(_repo: Repo, _after):
+    after_commit = _repo.commit(_after)
+    if after_commit.parents:
+        before_commit = after_commit.parents[0]
+    else:
+        before_commit = get_first_commit(_repo)
+    return before_commit
+
+
+def check_sha_zero(_sha: str):
+    if _sha.isdigit() and int(_sha) == 0:
+        return True
+    return False
 
 
 def get_branch_files(_repo, branch_name):
@@ -32,12 +44,19 @@ def get_branch_files(_repo, branch_name):
     with open(github_event_path, 'r') as f:
         data = dict(json.load(f))
 
-    before = data.get('before', get_first_commit(_repo))
+    before = data.get('before', '0')
     after = data.get('after')
+
+    # Check before SHA if zero
+    if check_sha_zero(before):
+        before = get_parent_latest_commit(repo, after).hexsha
+
     print(f'before commit SHA: {before}')
     print(f'after commit SHA: {after}')
+
     before_commit = _repo.commit(before)
     after_commit = _repo.commit(after)
+
     changed_files = set([item.b_path for item in before_commit.diff(after_commit)])
 
     return changed_files
