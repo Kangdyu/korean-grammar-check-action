@@ -2,7 +2,7 @@
 
 마크다운 파일에서 한국어 맞춤법이 잘못된 곳을 찾아 알려주는 Github Action
 
-## 사용법
+## 사용 예시
 
 ```yml
 name: Check Korean Grammar in Markdown Files
@@ -18,6 +18,7 @@ jobs:
       - name: Grammar Check
         uses: Kangdyu/korean-grammar-check-action@v1
         with:
+          path: "blog/tech"
           check: "updated"
 ```
 
@@ -25,9 +26,9 @@ jobs:
 
 | Input   | Description                                                    | Default Value  |
 |---------|----------------------------------------------------------------|----------------|
+| `path`  | 맞춤법 검사를 실행할 최상위 경로입니다. 하위 경로까지 모두 탐색합니다.              | `.` (root directory)          |
+| `check` | `all`: `path` 하위의 모든 md 파일을 검사합니다.<br>`updated`: `path` 하위의 수정된 md 파일만 검사합니다. | `updated`      |
 | `token` | GitHub API를 사용하기 위한 권한이 있는 토큰입니다.                              | `GITHUB_TOKEN` |
-| `path`  | 검사를 실행할 파일들이 있는 폴더 경로입니다. 하위 경로의 모든 md 파일을 검사합니다.              | `'.'`          |
-| `check` | `all`: 레포지토리의 모든 md 파일을 검사합니다.<br>`updated`: 수정된 md 파일만 검사합니다. | `updated`      |
 
 ## 개발 환경 세팅
 
