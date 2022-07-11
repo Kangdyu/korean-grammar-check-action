@@ -103,13 +103,17 @@ if __name__ == '__main__':
 
             # case: branch
             if github_ref.startswith('refs/heads/'):
-                check_files = get_branch_files(repo, github_ref[11:])
+                branch_name = github_ref[11:]
+                check_files = get_branch_files(repo, branch_name)
             # case: PR
             elif github_ref.startswith('refs/pull/'):
-                pass  # TODO
+                pr_number = int(github_ref[10:len(github_ref)-6])
+                branch_name = repo.active_branch.name               # TODO: remove
+                check_files = get_branch_files(repo, branch_name)   # TODO: remove
+                # TODO: implement
             # case: tag
             elif github_ref.startswith('refs/tags/'):
-                pass  # TODO
+                pass    # TODO: implement
 
             if check_files:
                 files = files & check_files
