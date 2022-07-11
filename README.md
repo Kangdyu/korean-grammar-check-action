@@ -19,15 +19,14 @@ jobs:
         uses: Kangdyu/korean-grammar-check-action@v1
         with:
           check: "updated"
-          base-branch: "main"
 ```
 
 ### 옵션 목록
 
-| Input   | Description | Default Value |
-| ------- | ----------- | ------------- |
+| Input   | Description                                       | Default Value |
+|---------|---------------------------------------------------|-----|
+| `path`  | 검사를 실행할 파일들이 있는 폴더 경로입니다. 하위 경로의 모든 md 파일을 검사합니다. | `'.'` |
 | `check` | `all`: 레포지토리의 모든 md 파일을 검사합니다.<br>`updated`: 수정된 md 파일만 검사합니다. | `updated` |
-| `base-branch` | `check: "updated"`일 때, 업데이트 내역을 비교하기 위한 브랜치입니다. | `main` |
 
 ## 개발 환경 세팅
 
