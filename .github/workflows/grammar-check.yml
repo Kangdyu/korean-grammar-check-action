@@ -34,11 +34,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Modify action.yml for local Docker build
         run: sed -i 's+docker://kangdyu/korean-grammar-check-action:latest+Dockerfile+g' action.yml
-      - name: Check All With Path Settings (/test/blog)
+      - name: Check All With Path Settings (/tests/blog)
         uses: ./
         with:
           check: "all"
-          path: "test/blog"
+          path: "tests/blog"
 
   Check-Updated-With-Path:
     runs-on: ubuntu-latest
@@ -47,8 +47,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Modify action.yml for local Docker build
         run: sed -i 's+docker://kangdyu/korean-grammar-check-action:latest+Dockerfile+g' action.yml
-      - name: Check Updated With Path Settings (/test/blog)
+      - name: Check Updated With Path Settings (/tests/blog)
         uses: ./
         with:
           check: "updated"
-          path: "test/blog"
+          path: "tests/blog"
