@@ -3,6 +3,7 @@ import os
 import json
 from wcmatch import glob
 from git import Repo
+from github import Github
 
 from grammar import check_grammar
 
@@ -36,6 +37,15 @@ def check_sha_zero(_sha: str):
     return False
 
 
+def filter_path_prefix(_paths):
+    result = []
+    for p in _paths:
+        if str(p).startswith('./'):
+            p = p[2:]
+        result.append(p)
+    return result
+
+
 def get_branch_files(_repo, branch_name):
     _repo.git.checkout(branch_name)
     _repo.git.execute(['git', 'fetch', '--unshallow'])
@@ -62,12 +72,12 @@ def get_branch_files(_repo, branch_name):
     return changed_files
 
 
-def filter_path_prefix(_paths):
-    result = []
-    for p in _paths:
-        if str(p).startswith('./'):
-            p = p[2:]
-        result.append(p)
+def get_pr_files(_g, _github_repository, _pr_number):
+    pr_files = _g.get_repo(_github_repository).get_pull(_pr_number).get_files()
+    result = set()
+    for file in pr_files:
+        if file.status != 'removed':
+            result.add(file.filename)
     return result
 
 
@@ -83,6 +93,7 @@ if __name__ == '__main__':
         check = os.environ.get('INPUT_CHECK', 'updated')
         github_ref = os.environ.get('GITHUB_REF')
         github_event_path = os.environ['GITHUB_EVENT_PATH']
+        github_repository = os.environ['GITHUB_REPOSITORY']
 
         # Setup git repository instance
         repo = Repo()
@@ -103,10 +114,13 @@ if __name__ == '__main__':
 
             # case: branch
             if github_ref.startswith('refs/heads/'):
-                check_files = get_branch_files(repo, github_ref[11:])
+                branch_name = github_ref[11:]
+                check_files = get_branch_files(repo, branch_name)
             # case: PR
             elif github_ref.startswith('refs/pull/'):
-                pass  # TODO
+                pr_number = github_ref[10:len(github_ref) - 6]
+                g = Github(token)
+                check_files = get_pr_files(g, github_repository, pr_number)
             # case: tag
             elif github_ref.startswith('refs/tags/'):
                 pass  # TODO
