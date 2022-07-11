@@ -20,7 +20,7 @@ PY3 = sys.version_info[0] == 3
 
 
 def _remove_tags(text):
-    text = u'<content>{}</content>'.format(text).replace('<br>','')
+    text = u'<content>{}</content>'.format(text).replace('<br>','').replace('&', '%26')
     if not PY3:
         text = text.encode('utf-8')
 
